@@ -2,7 +2,7 @@ name: choose_game
 description: "The Choose Finger app makes your decision-making process fun and fast! All you have to do is place multiple fingers on the screen simultaneously. The app will randomly select one of the placed fingers and show it to you. It offers a practical and straightforward solution when deciding who gets to choose or who performs a certain task."
 publish_to: 'none'
 
-version: 1.0.2+4
+version: 1.0.3+5
 
 environment:
   sdk: ^3.6.1
@@ -14,6 +14,7 @@ dependencies:
   get: ^4.7.2
   fluttertoast: ^8.2.12
   flutter_confetti: ^0.5.1
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
