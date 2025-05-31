@@ -1,16 +1,3 @@
-# choose_game
+# Choose Finger
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The Choose Finger app makes your decision-making process fun and fast! All you have to do is place multiple fingers on the screen simultaneously. The app will randomly select one of the placed fingers and show it to you. It offers a practical and straightforward solution when deciding who gets to choose or who performs a certain task.
