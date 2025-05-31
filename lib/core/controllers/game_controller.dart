@@ -72,10 +72,14 @@ class GameController extends GetxController implements GetxService {
 
   void _updateTapsFromActivePointers() {
     _taps.clear();
+    int activePointersLength = _activePointers.length;
     _activePointers.forEach((id, position) {
       _taps.add(PositionObject(id, position));
-      HapticFeedback.selectionClick();
     });
+
+    if (activePointersLength < _activePointers.length) {
+      HapticFeedback.selectionClick();
+    }
 
     if (taps.isEmpty) {
       _cancelSelectionTimer();
@@ -89,11 +93,13 @@ class GameController extends GetxController implements GetxService {
 
   void _startSelectionTimer() {
     _cancelSelectionTimer();
+    _startWorker();
     _selectedIndex.value = -1;
     _selectionTimer.value = Timer.periodic(const Duration(seconds: 1), (_) {
       if (_seconds.value > 0) {
         _seconds.value--;
       } else {
+        _seconds.value = -1;
         _selectRandomFinger();
       }
     });
@@ -114,21 +120,33 @@ class GameController extends GetxController implements GetxService {
   @override
   void onInit() {
     super.onInit();
+    _startWorker();
+  }
+
+  void _startWorker() {
+    _disposeWorker();
     _secondWorker = ever(_seconds, (int seconds) {
-      if (isPlaying || isCompleted) {
-        if (seconds <= 0) {
-          HapticFeedback.mediumImpact();
-        } else {
-          HapticFeedback.lightImpact();
-        }
+      if (seconds == 0) {
+        HapticFeedback.mediumImpact();
+        _disposeWorker();
+      } else {
+        HapticFeedback.lightImpact();
       }
     });
+  }
+
+  void _disposeWorker() {
+    if (_secondWorker == null) return;
+    if (!_secondWorker!.disposed) {
+      _secondWorker!.dispose();
+      _secondWorker = null;
+    }
   }
 
   @override
   void onClose() {
     _cancelSelectionTimer();
-    _secondWorker?.dispose();
+    _disposeWorker();
     super.onClose();
   }
 }
