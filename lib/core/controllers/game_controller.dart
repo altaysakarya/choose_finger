@@ -99,7 +99,6 @@ class GameController extends GetxController implements GetxService {
       if (_seconds.value > 0) {
         _seconds.value--;
       } else {
-        _seconds.value = -1;
         _selectRandomFinger();
       }
     });
