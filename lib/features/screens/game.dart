@@ -25,44 +25,37 @@ class _GameScreenState extends State<GameScreen> {
       body: LinearBackground(
         child: Listener(
           behavior: HitTestBehavior.translucent,
-          onPointerMove: (event) {
-            GameController.to.handlePointerMove(event);
-          },
-          onPointerDown: (event) {
-            GameController.to.handlePointerDown(event);
-          },
-          onPointerUp: (event) {
-            GameController.to.handlePointerUp(event);
-          },
-          onPointerCancel: (event) {
-            GameController.to.handlePointerCancel(event);
-          },
-          child: Obx(() => Stack(
-                children: [
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 75),
-                      child: Text(
-                          GameController.to.isPlaying
-                              ? "${GameController.to.seconds}"
-                              : "Tap To Play!",
-                          style: Get.textTheme.headlineLarge),
-                    ),
+          onPointerMove: GameController.to.handlePointerMove,
+          onPointerDown: GameController.to.handlePointerDown,
+          onPointerUp: GameController.to.handlePointerUp,
+          onPointerCancel: GameController.to.handlePointerCancel,
+          child: Obx(() {
+            String header = "Tap to Play!";
+            if (GameController.to.isPlaying) {
+              header = GameController.to.seconds.toString();
+            }
+            return Stack(
+              children: [
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 75),
+                    child: Text(header, style: Get.textTheme.headlineLarge),
                   ),
-                  for (int i = 0; i < GameController.to.taps.length; i++)
-                    Positioned(
-                      left: GameController.to.taps[i].position.dx - 50,
-                      top: GameController.to.taps[i].position.dy - 50,
-                      child: Tap(
-                        key: ValueKey(GameController.to.taps[i].id),
-                        state: GameController.to.selectedIndex == i
+                ),
+                for (var tap in GameController.to.taps.asMap().entries)
+                  Positioned(
+                    left: tap.value.position.dx - 50,
+                    top: tap.value.position.dy - 50,
+                    child: Tap(
+                        key: ValueKey(tap.value.id),
+                        state: GameController.to.selectedIndex == tap.key
                             ? TapState.success
-                            : GameController.to.tapState,
-                      ),
-                    ),
-                ],
-              )),
+                            : GameController.to.tapState),
+                  ),
+              ],
+            );
+          }),
         ),
       ),
     );
